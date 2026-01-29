@@ -11,7 +11,6 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
             <span className="font-bold text-xl tracking-tight">PIConverter</span>
           </div>
-          {/* Header navigation removed as requested */}
         </div>
       </header>
 
@@ -20,12 +19,33 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       </main>
 
       <footer className="border-t border-white/5 py-12 mt-12 bg-black/80">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="text-gray-600 text-sm flex flex-col md:flex-row items-center justify-center md:space-x-4 space-y-2 md:space-y-0">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-gray-600 text-sm flex flex-col md:flex-row items-center justify-center md:space-x-6 space-y-4 md:space-y-0">
             <p>© 2024 PIConverter Studio.</p>
-            <span className="hidden md:inline">•</span>
+            <span className="hidden md:inline text-gray-800">•</span>
             <p>High Performance Media Processing</p>
-            {/* Local-Only Secure Mode removed as requested */}
+            <span className="hidden md:inline text-gray-800">•</span>
+            <div className="flex items-center space-x-4">
+              <a 
+                href="/sitemap.xml" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-violet-400 transition-colors underline decoration-gray-800 underline-offset-4"
+              >
+                Sitemap
+              </a>
+              <a 
+                href="/robots.txt" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-violet-400 transition-colors underline decoration-gray-800 underline-offset-4"
+              >
+                Robots.txt
+              </a>
+            </div>
+          </div>
+          <div className="mt-6 text-center">
+             <p className="text-[10px] text-gray-700 uppercase tracking-widest font-semibold">Privacy First • Local Only • Secure</p>
           </div>
         </div>
       </footer>
