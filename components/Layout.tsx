@@ -36,7 +36,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
               PIConverter is built with a <strong>privacy-first architecture</strong>. All file operations, including PDF conversion and image compression, are executed entirely within your browser's sandbox. 
-              We do not utilize cloud storage, nor do we ever transmit your files to any external server. Your sensitive data never leaves your local machine.
+              <strong>We do not store your files.</strong> We do not utilize cloud storage, nor do we ever transmit your files to any external server. Your sensitive data never leaves your local machine.
             </p>
           </div>
           
