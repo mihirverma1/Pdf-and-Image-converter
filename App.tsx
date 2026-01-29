@@ -49,13 +49,24 @@ export default function App() {
     <Layout>
       {!activeTool ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-4">
               PIConverter
             </h1>
-            <p className="text-xl text-gray-500 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-10">
               Professional grade PDF and image manipulation tools. 100% browser-based, secure, and blazingly fast.
             </p>
+
+            <div className="mb-12 p-6 glass rounded-2xl border-yellow-500/10 bg-yellow-500/5 max-w-3xl mx-auto text-left md:text-center animate-in fade-in zoom-in duration-700">
+              <div className="inline-flex items-center space-x-2 text-yellow-500/80 text-xs font-bold uppercase tracking-[0.2em] mb-3">
+                <span className="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></span>
+                <span>Local Processing Disclaimer</span>
+              </div>
+              <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+                PIConverter is built with a <strong>privacy-first architecture</strong>. All file operations, including PDF conversion and image compression, are executed entirely within your browser's sandbox. 
+                <strong> We do not store or transmit your files.</strong> Your sensitive data never leaves your local machine.
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
