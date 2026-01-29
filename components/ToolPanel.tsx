@@ -1,8 +1,7 @@
-
 import React, { useState, useRef } from 'react';
-import { ToolType, ToolConfig, FileItem } from '../types';
-import { processPdfToImages, processImagesToPdf, mergePdfs, shrinkPdf } from '../services/pdfService';
-import { shrinkImage } from '../services/imageService';
+import { ToolType, ToolConfig, FileItem } from '../types.ts';
+import { processPdfToImages, processImagesToPdf, mergePdfs, shrinkPdf } from '../services/pdfService.ts';
+import { shrinkImage } from '../services/imageService.ts';
 
 interface ToolPanelProps {
   tool: ToolType;
@@ -18,7 +17,6 @@ export const ToolPanel: React.FC<ToolPanelProps> = ({ tool, config }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
-    // Explicitly typing file as File to fix 'unknown' type inference errors from Array.from
     const newFiles: FileItem[] = Array.from(e.target.files).map((file: File) => ({
       id: Math.random().toString(36).substr(2, 9),
       file,
@@ -26,7 +24,6 @@ export const ToolPanel: React.FC<ToolPanelProps> = ({ tool, config }) => {
       preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined
     }));
 
-    // For single file tools, replace. For multi-file tools, append.
     if (tool === ToolType.MERGE_PDF || tool === ToolType.IMAGE_TO_PDF) {
       setFiles(prev => [...prev, ...newFiles]);
     } else {

@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
-import { Layout } from './components/Layout';
-import { ToolCard } from './components/ToolCard';
-import { ToolPanel } from './components/ToolPanel';
-import { ToolType, ToolConfig } from './types';
+import { Layout } from './components/Layout.tsx';
+import { ToolCard } from './components/ToolCard.tsx';
+import { ToolPanel } from './components/ToolPanel.tsx';
+import { ToolType, ToolConfig } from './types.ts';
 
 const TOOLS: ToolConfig[] = [
   {
