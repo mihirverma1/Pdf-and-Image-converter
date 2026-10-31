@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 
 interface UpgradeModalProps {
   onClose: () => void;
-  dailyUsage: number;
-  limit: number;
 }
 
-export const UpgradeModal: React.FC<UpgradeModalProps> = ({ onClose, dailyUsage, limit }) => {
+export const UpgradeModal: React.FC<UpgradeModalProps> = ({ onClose }) => {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('monthly');
   const [loading, setLoading] = useState(false);
 
@@ -41,19 +39,9 @@ export const UpgradeModal: React.FC<UpgradeModalProps> = ({ onClose, dailyUsage,
 
         {/* Header */}
         <div className="text-center mb-8">
-          {dailyUsage >= limit ? (
-            <>
-              <div className="text-4xl mb-3">⚡</div>
-              <h2 className="text-2xl font-bold text-white mb-2">Daily Limit Reached</h2>
-              <p className="text-gray-400 text-sm">You've used all {limit} free conversions today. Upgrade for unlimited access.</p>
-            </>
-          ) : (
-            <>
-              <div className="text-4xl mb-3">✦</div>
-              <h2 className="text-2xl font-bold text-white mb-2">Upgrade to Pro</h2>
-              <p className="text-gray-400 text-sm">Unlimited conversions, no ads, priority speed.</p>
-            </>
-          )}
+          <div className="text-4xl mb-3">✦</div>
+          <h2 className="text-2xl font-bold text-white mb-2">Upgrade to Pro</h2>
+          <p className="text-gray-400 text-sm">No ads, priority speed, email support.</p>
         </div>
 
         {/* Plan toggle */}

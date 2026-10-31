@@ -43,64 +43,19 @@ const TOOLS: ToolConfig[] = [
   }
 ];
 
-const FREE_DAILY_LIMIT = 3;
-
-function getDailyUsage(): number {
-  const today = new Date().toDateString();
-  const stored = localStorage.getItem('pi_usage');
-  if (!stored) return 0;
-  try {
-    const data = JSON.parse(stored);
-    if (data.date !== today) return 0;
-    return data.count || 0;
-  } catch {
-    return 0;
-  }
-}
-
-function incrementDailyUsage(): number {
-  const today = new Date().toDateString();
-  const current = getDailyUsage();
-  const newCount = current + 1;
-  localStorage.setItem('pi_usage', JSON.stringify({ date: today, count: newCount }));
-  return newCount;
-}
-
 export default function App() {
   const [activeTool, setActiveTool] = useState<ToolType | null>(null);
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [dailyUsage, setDailyUsage] = useState(0);
   const [isPro, setIsPro] = useState(false);
 
   useEffect(() => {
-    setDailyUsage(getDailyUsage());
     // Check pro status from localStorage
     const proStatus = localStorage.getItem('pi_pro');
     if (proStatus === 'true') setIsPro(true);
   }, []);
 
-  const handleConversionComplete = () => {
-    if (!isPro) {
-      const newCount = incrementDailyUsage();
-      setDailyUsage(newCount);
-      if (newCount >= FREE_DAILY_LIMIT) {
-        setTimeout(() => setShowUpgrade(true), 1500);
-      }
-    }
-  };
-
-  const handleToolClick = (toolId: ToolType) => {
-    if (!isPro && dailyUsage >= FREE_DAILY_LIMIT) {
-      setShowUpgrade(true);
-      return;
-    }
-    setActiveTool(toolId);
-  };
-
-  const remainingConversions = Math.max(0, FREE_DAILY_LIMIT - dailyUsage);
-
   return (
-    <Layout isPro={isPro} remainingConversions={remainingConversions} onUpgradeClick={() => setShowUpgrade(true)}>
+    <Layout isPro={isPro} onUpgradeClick={() => setShowUpgrade(true)}>
       {!activeTool ? (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
@@ -110,33 +65,6 @@ export default function App() {
             <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-6">
               Professional grade PDF and image manipulation tools. 100% browser-based, secure, and blazingly fast.
             </p>
-
-            {/* Usage indicator */}
-            {!isPro && (
-              <div className="mb-8 inline-flex items-center space-x-3 bg-white/5 border border-white/10 rounded-full px-5 py-2.5">
-                <div className="flex space-x-1">
-                  {[...Array(FREE_DAILY_LIMIT)].map((_, i) => (
-                    <div
-                      key={i}
-                      className={`w-3 h-3 rounded-full transition-colors ${
-                        i < dailyUsage ? 'bg-red-500' : 'bg-green-500'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-gray-400">
-                  {remainingConversions === 0
-                    ? '⚠️ Daily limit reached — '
-                    : `${remainingConversions} free conversion${remainingConversions !== 1 ? 's' : ''} left today — `}
-                  <button
-                    onClick={() => setShowUpgrade(true)}
-                    className="text-violet-400 hover:text-violet-300 font-semibold underline underline-offset-2 transition-colors"
-                  >
-                    Upgrade for unlimited
-                  </button>
-                </span>
-              </div>
-            )}
 
             {isPro && (
               <div className="mb-8 inline-flex items-center space-x-2 bg-violet-500/10 border border-violet-500/30 rounded-full px-5 py-2.5">
@@ -162,8 +90,7 @@ export default function App() {
               <ToolCard
                 key={tool.id}
                 config={tool}
-                onClick={() => handleToolClick(tool.id)}
-                locked={!isPro && dailyUsage >= FREE_DAILY_LIMIT}
+                onClick={() => setActiveTool(tool.id)}
               />
             ))}
           </div>
@@ -181,7 +108,7 @@ export default function App() {
                 <div className="text-4xl font-bold text-white mb-1">₹0</div>
                 <div className="text-gray-500 text-sm mb-8">Forever free</div>
                 <ul className="space-y-3 mb-8">
-                  {['3 conversions per day', 'All 5 tools included', 'Browser-based & private', 'No account needed'].map(f => (
+                  {['Unlimited conversions', 'All 5 tools included', 'Browser-based & private', 'No account needed'].map(f => (
                     <li key={f} className="flex items-center text-sm text-gray-400">
                       <span className="text-green-500 mr-2">✓</span>{f}
                     </li>
@@ -237,20 +164,14 @@ export default function App() {
           <ToolPanel
             tool={activeTool}
             config={TOOLS.find(t => t.id === activeTool)!}
-            onConversionComplete={handleConversionComplete}
             isPro={isPro}
-            remainingConversions={remainingConversions}
             onUpgradeClick={() => setShowUpgrade(true)}
           />
         </div>
       )}
 
       {showUpgrade && (
-        <UpgradeModal
-          onClose={() => setShowUpgrade(false)}
-          dailyUsage={dailyUsage}
-          limit={FREE_DAILY_LIMIT}
-        />
+        <UpgradeModal onClose={() => setShowUpgrade(false)} />
       )}
     </Layout>
   );

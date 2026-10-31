@@ -6,18 +6,14 @@ import { shrinkImage } from '../services/imageService.ts';
 interface ToolPanelProps {
   tool: ToolType;
   config: ToolConfig;
-  onConversionComplete?: () => void;
   isPro?: boolean;
-  remainingConversions?: number;
   onUpgradeClick?: () => void;
 }
 
 export const ToolPanel: React.FC<ToolPanelProps> = ({
   tool,
   config,
-  onConversionComplete,
   isPro,
-  remainingConversions = 3,
   onUpgradeClick
 }) => {
   const [files, setFiles] = useState<FileItem[]>([]);
@@ -72,7 +68,6 @@ export const ToolPanel: React.FC<ToolPanelProps> = ({
           break;
       }
       setSuccess(true);
-      onConversionComplete?.();
     } catch (err) {
       console.error(err);
       setError('An error occurred during processing. Please try again.');
@@ -93,16 +88,6 @@ export const ToolPanel: React.FC<ToolPanelProps> = ({
           </h2>
           <p className="text-gray-500 ml-16">{config.description}</p>
         </div>
-        {!isPro && (
-          <div className="hidden sm:flex items-center space-x-2 glass px-3 py-2 rounded-xl">
-            <div className="flex space-x-1">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className={`w-2 h-2 rounded-full ${i < (3 - remainingConversions) ? 'bg-red-500' : 'bg-green-500'}`} />
-              ))}
-            </div>
-            <span className="text-xs text-gray-400">{remainingConversions} left today</span>
-          </div>
-        )}
       </div>
 
       <div
@@ -170,15 +155,6 @@ export const ToolPanel: React.FC<ToolPanelProps> = ({
               <div className="p-4 bg-green-500/10 border border-green-500/50 rounded-xl text-green-400 text-sm flex items-center space-x-2">
                 <span>✅</span>
                 <span>Done! Your file has been downloaded successfully.</span>
-              </div>
-            )}
-
-            {!isPro && remainingConversions <= 1 && !success && (
-              <div className="p-4 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400 text-sm flex items-center justify-between">
-                <span>⚡ {remainingConversions === 0 ? 'No conversions left today' : 'This is your last free conversion today'}</span>
-                <button onClick={onUpgradeClick} className="text-violet-400 font-semibold hover:text-violet-300 transition-colors ml-3 whitespace-nowrap">
-                  Upgrade →
-                </button>
               </div>
             )}
 

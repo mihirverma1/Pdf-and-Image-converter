@@ -3,11 +3,10 @@ import React from 'react';
 interface LayoutProps {
   children: React.ReactNode;
   isPro: boolean;
-  remainingConversions: number;
   onUpgradeClick: () => void;
 }
 
-export const Layout: React.FC<LayoutProps> = ({ children, isPro, remainingConversions, onUpgradeClick }) => {
+export const Layout: React.FC<LayoutProps> = ({ children, isPro, onUpgradeClick }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 z-50 glass border-b border-white/5 bg-black/50 backdrop-blur-xl">
